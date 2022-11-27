@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -45,16 +44,12 @@ func GetNinjaCatFacts() []CatFact {
 	defer resp.Body.Close()
 	bodyBytes, _ := io.ReadAll(resp.Body)
 
-	fmt.Println("response: ", string(bodyBytes))
-
 	// convert response body to fact
 	var passedCatFacts NinjaCatFactResponse
-	json.Unmarshal(bodyBytes, &catFacts)
+	json.Unmarshal(bodyBytes, &passedCatFacts)
 
-	newCatFacts := make([]CatFact, len(passedCatFacts.Data))
+	newCatFacts := make([]CatFact, 0)
 	for _, passedFact := range passedCatFacts.Data {
-
-		fmt.Println("passed fact: ", passedFact)
 		newCatFacts = append(newCatFacts, NewNinjaCatFact(passedFact.Fact))
 	}
 	return newCatFacts
