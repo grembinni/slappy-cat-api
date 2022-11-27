@@ -23,10 +23,26 @@ var catFacts = []catFact{
 func main() {
 	router := gin.Default()
 	router.GET("cat/facts", getFacts)
+	router.POST("cat/facts", postFacts)
 	router.Run("localhost:8080")
 }
 
 // responds with the list of all facts as JSON.
 func getFacts(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, catFacts)
+}
+
+// postAlbums adds an album from JSON received in the request body.
+func postFacts(c *gin.Context) {
+	var newFact catFact
+
+	// Call BindJSON to bind the received JSON to
+	// newAlbum.
+	if err := c.BindJSON(&newFact); err != nil {
+		return
+	}
+
+	// Add the new album to the slice.
+	catFacts = append(catFacts, newFact)
+	c.IndentedJSON(http.StatusCreated, newFact)
 }
