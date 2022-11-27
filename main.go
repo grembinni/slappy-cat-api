@@ -22,7 +22,7 @@ var catFacts = []catFact{
 
 func main() {
 	router := gin.Default()
-	router.GET("/albums", getFacts)
+	router.GET("cat/facts", getFacts)
 	router.Run("localhost:8080")
 }
 
